@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello OpenAI</title>
+    <style>
+        html, body {
+            overflow: hidden; /* 禁止滚动 */
+        }
+
+        body {
+            background-color: #333; /* 淡黑色背景 */
+            color: white; /* 白色文本 */
+            font-family: Arial, sans-serif; /* 设置字体 */
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #cons {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 标题样式 */
+        h1 {
+            text-align: left;
+            padding-left: calc(100% * 0.2);
+            padding-top: 100px;
+            margin-top: 0;
+        }
+
+        #authorizationCode {
+            margin-top: 100px;
+            display: block;
+            width: 180px; /* 输入框宽度 */
+            height: 24px; /* 输入框高度 */
+            padding: 10px; /* 内边距 */
+            margin-left: calc(100% * 0.2);
+            background: transparent; /* 透明背景 */
+            border: 2px solid rgba(255, 255, 255, 0.5); /* 半透明白色边框 */
+            border-radius: 10px; /* 圆角边框 */
+            font-size: 16px; /* 字体大小 */
+            color: white; /* 文本颜色 */
+            outline: none; /* 去掉默认的聚焦边框 */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; /* 动画效果 */        }
+
+        #authorizationCode::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* 半透明的占位符文本 */
+            font-style: italic; /* 斜体 */
+        }
+
+        #authorizationCode:hover {
+            border-color: rgba(255, 255, 255, 0.8); /* 鼠标悬停时边框颜色变亮 */
+            transform: translateY(-3px); /* 悬停时输入框抬起效果 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* 悬停时的阴影效果 */
+        }
+
+        #authorizationCode:focus {
+            border-color: #0593ec; /* 聚焦时的边框颜色 */
+            box-shadow: 0 0 8px #0593ec; /* 聚焦时的阴影效果 */
+            transform: translateY(-3px); /* 聚焦时的抬起效果 */
+        }
+
+        /* 按钮样式 */
+        button {
+            display: block;
+            width: 180px;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.3); /* 背景透明效果 */
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            margin-left: calc(100% * 0.2);
+            transition: background-color 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease; /* 动画过渡效果 */
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* 鼠标悬停时增加透明度 */
+            transform: translateY(-3px); /* 鼠标悬停时轻微放大 */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2); /* 阴影效果 */
+        }
+
+        button:focus {
+            box-shadow: 0 0 10px 5px #0593ec; /* 聚焦时添加强烈阴影效果 */
+            outline: none; /* 去除默认聚焦轮廓 */
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .footer span {
+            cursor: pointer;
+        }
+
+        .show-loading-animation:after {
+            content: '';
+            animation: dot-blink 1.2s steps(1, end) infinite;
+            display: inline-block;
+        }
+
+        @keyframes dot-blink {
+            0%, 20% {
+                content: '';
+            }
+            40% {
+                content: '.';
+            }
+            60% {
+                content: '..';
+            }
+            80%, 100% {
+                content: '...';
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="cons">
+    <h1>WELCOME TO HOAI - PLUS</h1>
+    <label>
+        <input id="authorizationCode" placeholder="请输入您的授权码" >
+    </label>
+    <button onclick="callApi()"> 开启对话 </button>
+
+    <div class="footer">
+        <span onclick="toGithub()">Powered by shunger</span>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedCode = localStorage.getItem('authorizationCode');
+        if (savedCode) {
+            document.getElementById('authorizationCode').value = savedCode;
+        }
+    });
+
+    function callApi() {
+        const authorizationCode = document.getElementById('authorizationCode').value;
+        // 检查是否填写了授权码
+        if (!authorizationCode) {
+            alert("请先填写授权码！");
+            return;
+        }
+
+        const button = document.querySelector('button');
+        button.innerHTML = '获取访问令牌 ';
+        button.classList.add("show-loading-animation")
+
+        fetch(`/api/getToken?authCode=${authorizationCode}`, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("index: " + data.tokenIndex + ", 授权地址: " + data.rrURL)
+                button.innerHTML = '正在跳转 ';
+                localStorage.setItem('authorizationCode', authorizationCode);
+                window.location.href = data.rrURL;
+            })
+            .catch(error => {
+                button.innerHTML = ' 开启对话 ';
+                console.error('Error:', error);
+            });
+    }
+    function toGithub() {
+        window.location.href = "https://www.shunger.store"
+    }
+</script>
+<script src="three.r134.min.js"></script>
+<script src="vanta.halo.min.js"></script>
+<script>
+    VANTA.HALO({
+        el: "#cons",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00
+    })
+</script>
+</body>
+</html>
