@@ -82,17 +82,6 @@
             animation-delay: 10s;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         .content {
             text-align: center;
             z-index: 2;
@@ -115,6 +104,7 @@
             display: flex;
             gap: 1.5rem;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .nav-button {
@@ -131,20 +121,11 @@
             opacity: 0;
             transform: translateY(20px);
             position: relative;
-            overflow: hidden;
         }
 
-        .nav-button:nth-child(1) {
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-        }
-
-        .nav-button:nth-child(2) {
-            animation: fadeInUp 0.8s ease 0.4s forwards;
-        }
-
-        .nav-button:nth-child(2) {
-            animation: fadeInUp 0.8s ease 0.6s forwards;
-        }
+        .nav-button:nth-child(1) { animation: fadeInUp 0.8s ease 0.2s forwards; }
+        .nav-button:nth-child(2) { animation: fadeInUp 0.8s ease 0.4s forwards; }
+        .nav-button:nth-child(3) { animation: fadeInUp 0.8s ease 0.6s forwards; }
 
         .nav-button:hover {
             background: rgba(255, 255, 255, 0.3);
@@ -152,20 +133,61 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .nav-button::before {
-            content: '';
+        .tooltip {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
+            top: calc(100% + 15px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
         }
 
-        .nav-button:hover::before {
-            transform: translateX(0);
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 8px 8px;
+            border-style: solid;
+            border-color: transparent transparent rgba(0, 0, 0, 0.85) transparent;
+        }
+
+        .tooltip ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .tooltip li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .tooltip li::before {
+            content: '•';
+            position: absolute;
+            left: 5px;
+            color: #00FFAA;
+        }
+
+        .nav-button:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(5px);
         }
 
         .footer {
@@ -186,6 +208,17 @@
 
         .footer a:hover {
             color: #ffffff;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes fadeInDown {
@@ -209,10 +242,17 @@
 
             .nav-buttons {
                 flex-direction: column;
+                width: 90%;
+                margin: 0 auto;
             }
 
             .nav-button {
                 width: 100%;
+            }
+
+            .tooltip {
+                width: 90%;
+                max-width: 300px;
             }
         }
     </style>
@@ -228,13 +268,42 @@
     <div class="content">
         <h1>OpenAI 导航</h1>
         <div class="nav-buttons">
-            <a href="https://openai.shunger.store/plus" class="nav-button">Plus 版本</a>
-            <a href="https://openai.shunger.store/free" class="nav-button">免费版本</a>
-            <a href="https://next.shunger.store" class="nav-button">Next Chat</a>
+            <a href="https://openai.shunger.store/plus" class="nav-button">
+                Plus 版本
+                <div class="tooltip">
+                    <ul>
+                        <li>更高级的模型</li>
+                        <li>完全隔离的聊天记录</li>
+                        <li>更多的访问次数</li>
+                        <li>提供给拼车用户授权访问</li>
+                    </ul>
+                </div>
+            </a>
+            <a href="https://openai.shunger.store/free" class="nav-button">
+                免费版本
+                <div class="tooltip">
+                    <ul>
+                        <li>免费的ChatGPT</li>
+                        <li>提供大量GPT4o支持</li>
+                        <li>临时对话</li>
+                        <li>优于原生的响应质量</li>
+                    </ul>
+                </div>
+            </a>
+            <a href="https://next.shunger.store" class="nav-button">
+                Next Chat
+                <div class="tooltip">
+                    <ul>
+                        <li>基于API的AI对话</li>
+                        <li>使用密钥 "gnbs666" 免费体验</li>
+                        <li>可使用自购API访问</li>
+                    </ul>
+                </div>
+            </a>
         </div>
     </div>
     <footer class="footer">
-        <a href="https://github.com/hexsean/hoaiplus" target="_blank" rel="noopener noreferrer">Powered by shunger</a>
+        <a href="https://github.com/shunger" target="_blank" rel="noopener noreferrer">Powered by shunger</a>
     </footer>
 </div>
 </body>
