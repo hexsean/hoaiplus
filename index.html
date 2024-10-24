@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOAI 导航</title>
+    <title>OpenAI 全屏导航</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
@@ -23,6 +23,7 @@
         .container {
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
@@ -163,6 +164,26 @@
             transform: translateX(0);
         }
 
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ffffff;
+        }
+
         @keyframes fadeInDown {
             to {
                 opacity: 1;
@@ -201,12 +222,15 @@
         <div class="shape"></div>
     </div>
     <div class="content">
-        <h1>HOAI 导航</h1>
+        <h1>OpenAI 导航</h1>
         <div class="nav-buttons">
             <a href="https://openai.shunger.store/plus" class="nav-button">Plus 版本</a>
             <a href="https://openai.shunger.store/free" class="nav-button">免费版本</a>
         </div>
     </div>
+    <footer class="footer">
+        <a href="https://github.com/hexsean/hoaiplus" target="_blank" rel="noopener noreferrer">Powered by shunger</a>
+    </footer>
 </div>
 </body>
 </html>
