@@ -308,21 +308,15 @@
 </div>
 <script>
     function callApi() {
-        const button = document.querySelector('button');
-        button.innerHTML = '获取访问令牌 ';
-        button.classList.add("show-loading-animation")
-
         fetch('/api/getToken', {
             method: 'GET'
         })
             .then(response => response.json())
             .then(data => {
                 console.log("index: " + data.tokenIndex + ", 授权地址: " + data.rrURL)
-                button.innerHTML = '正在跳转 ';
                 window.location.href = data.rrURL;
             })
             .catch(error => {
-                button.innerHTML = '试试 ChatGPT ';
                 console.error('Error:', error);
             });
     }
