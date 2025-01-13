@@ -255,6 +255,27 @@
                 max-width: 300px;
             }
         }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0.8rem 0;
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInDown 0.8s ease 0.4s forwards;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 640px) {
+            h2 {
+                font-size: 1rem;
+                padding: 0 20px;
+                margin: 0.6rem 0;
+            }
+        }
     </style>
 </head>
 <body>
