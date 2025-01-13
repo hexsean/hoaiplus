@@ -276,6 +276,26 @@
                 margin: 0.6rem 0;
             }
         }
+        p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0.5rem 0 1.5rem;
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.6;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInDown 0.8s ease 0.6s forwards;
+        }
+
+        @media (max-width: 640px) {
+            p {
+                font-size: 0.95rem;
+                margin: 0.4rem 0 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -287,10 +307,15 @@
         <div class="shape"></div>
     </div>
     <div class="content">
-        <h1>OpenAI 导航</h1>
-        <h2>此前基于NextChat部署的前端工程已下线, 主要有部分境外流量似乎24小时在使用, 这看起来很奇怪</h2>
-        <h2>如有高级模型需求,如o1, 或者是需要使用画图模型, 可以申请下面的open webui, 只要是咱们这边的小伙伴我看见都会通过</h2>
-        <h2>考虑到当下开源模型的能力已经直追4o, 推荐以下开源模型的方案.</h2>
+        <h1>AI 模型服务导航</h1>
+        <h2>开源模型推荐</h2>
+        <p>鉴于目前开源模型的能力已接近 GPT-4，我们优先推荐使用以下开源解决方案。</p>
+
+        <h2>高级模型申请</h2>
+        <p>如需使用高级模型，可以申请使用我们的 Open WebUI 平台。内部小伙伴的申请都将通过。</p>
+
+        <h2>服务调整说明</h2>
+        <p>原基于 NextChat 的服务已暂时关闭。这是由于检测到异常的境外访问流量，为确保服务安全性，进行相应优化调整。</p>
         <div class="nav-buttons">
 <!--            <a href="https://openai.shunger.store/plus" class="nav-button">-->
 <!--                Plus 版本-->
